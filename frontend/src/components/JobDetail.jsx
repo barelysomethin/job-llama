@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import parseHtml from '../utils/htmlParser';
 
+import API_URL from '../utils/api';
+
 const JobDetail = () => {
   const { id } = useParams();
   const [job, setJob] = useState(null);
@@ -14,7 +16,7 @@ const JobDetail = () => {
       try {
         // Extract the ID from the slug (it's the last part after the last hyphen)
         const jobId = id.split('-').pop();
-        const response = await axios.get(`http://localhost:3000/api/jobs/${jobId}`);
+        const response = await axios.get(`${API_URL}/jobs/${jobId}`);
         setJob(response.data);
         setLoading(false);
       } catch (err) {

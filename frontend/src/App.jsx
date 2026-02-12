@@ -7,6 +7,8 @@ import JobDetail from './components/JobDetail';
 
 import JobLlamaLogo from './assets/jobllama.jpg';
 
+import API_URL from './utils/api';
+
 function Home() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ function Home() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/jobs');
+        const response = await axios.get(`${API_URL}/jobs`);
         setJobs(response.data);
         setLoading(false);
       } catch (err) {
