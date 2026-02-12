@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
-import JobList from './components/JobList';
+import { Analytics } from "@vercel/analytics/react"
+import JobCard from './components/JobCard';
 import JobDetail from './components/JobDetail';
 
 import JobLlamaLogo from './assets/jobllama.jpg';
@@ -29,6 +30,7 @@ function Home() {
 
   return (
     <div className="min-h-screen font-sans bg-[#fdfbf7]">
+      <Analytics />
       <header className="bg-white border-b-4 border-black sticky top-0 z-40">
         <div className="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-4 text-4xl font-black text-black tracking-tighter italic no-underline group">
