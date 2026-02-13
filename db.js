@@ -3,15 +3,17 @@ import dotenv from "dotenv";
 dotenv.config(".env", { quiet: true, debug: false });
 
 const db = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+
   try {
     await mongoose.connect(process.env.mongo_url);
     console.log("connected to DB");
   } catch (error) {
     console.error("Database connection error:", error);
-    process.exit(1);
   }
 };
-
 
 export default db;
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Analytics } from "@vercel/analytics/react"
 import JobCard from './components/JobCard';
 import JobDetail from './components/JobDetail';
+import JobList from './components/JobList';
 
 import JobLlamaLogo from './assets/jobllama.jpg';
 

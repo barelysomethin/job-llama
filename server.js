@@ -9,11 +9,12 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to Database
-db();
+// db(); // Removed global call
 
 // Get all jobs
 app.get("/api/jobs", async (req, res) => {
   try {
+    await db(); // Ensure DB is connected
     const jobs = await Job.find().sort({ createdAt: -1 });
     res.json(jobs);
   } catch (error) {
@@ -25,6 +26,7 @@ app.get("/api/jobs", async (req, res) => {
 // Get job by ID
 app.get("/api/jobs/:id", async (req, res) => {
   try {
+    await db(); // Ensure DB is connected
     const job = await Job.findById(req.params.id);
     if (!job) {
       return res.status(404).json({ message: "Job not found" });
@@ -39,3 +41,6 @@ app.get("/api/jobs/:id", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+// Export the Express API for Vercel
+export default app;

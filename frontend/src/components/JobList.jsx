@@ -13,7 +13,7 @@ const JobList = ({ jobs }) => {
   return (
     <div className="flex flex-col space-y-6">
       {jobs.map((job) => (
-        <JobCard key={job.id} job={job} />
+        <JobCard key={job._id} job={job} />
       ))}
     </div>
   );
