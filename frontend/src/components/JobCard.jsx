@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const JobCard = ({ job }) => {
-  // Use the stored slug if available, otherwise generate it dynamically (for older jobs)
-  const slug = job.slug || `${job.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${job._id}`;
+  const slug = `${job.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${job._id}`;
 
   return (
     <Link 

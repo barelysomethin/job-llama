@@ -65,14 +65,6 @@ export async function savejobs() {
   }
 
   let result = await Jobmodel.insertMany(jobsforDB);
-  
-  // Now update each job with its final slug (title-slug + mongoId)
-  // This matches the frontend logic perfectly but stores it for Twitter/SEO
-  for (let job of result) {
-    job.slug = `${job.slug}-${job._id}`;
-    await job.save();
-  }
-
-  console.log("jobs saved to DB with final slugs", result.length);
+  console.log("jobs saved to DB", result.length);
   return result;
 }
