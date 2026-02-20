@@ -26,7 +26,8 @@ const jobschema = new mongoose.Schema({
   experience: String,
   jobType: String,
   apply: String,
-  istweeted: Boolean
+  istweeted: Boolean,
+  slug: String
 });
 
 export const Job = mongoose.model("jobtables", jobschema);

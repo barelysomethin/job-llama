@@ -55,12 +55,24 @@ async function filterjobs() {
 
 /////saving jobs in the database/////
 
-async function savejobs() {
+export async function savejobs() {
   await db();
   const jobsforDB = await filterjobs();
 
-  let result = await Jobmodel.insertMany(jobsforDB);
-  console.log("jobs saved to DB", result);
-}
+  if (jobsforDB.length === 0) {
+    console.log("No new jobs to save.");
+    return { message: "No new jobs found" };
+  }
 
-savejobs();
+  let result = await Jobmodel.insertMany(jobsforDB);
+  
+  // Now update each job with its final slug (title-slug + mongoId)
+  // This matches the frontend logic perfectly but stores it for Twitter/SEO
+  for (let job of result) {
+    job.slug = `${job.slug}-${job._id}`;
+    await job.save();
+  }
+
+  console.log("jobs saved to DB with final slugs", result.length);
+  return result;
+}

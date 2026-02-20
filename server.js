@@ -38,6 +38,28 @@ app.get("/api/jobs/:id", async (req, res) => {
   }
 });
 
+import { savejobs } from "./scraper.js";
+
+// ... (existing code)
+
+// Cron job endpoint
+app.get("/api/cron", async (req, res) => {
+  // Simple check to prevent unauthorized calls (Vercel sets this header)
+  // If running locally, you can skip this or set the header
+  const authHeader = req.headers.authorization;
+  if (process.env.NODE_ENV === "production" && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const result = await savejobs();
+    res.status(200).json({ message: "Scraper executed successfully", result });
+  } catch (error) {
+    console.error("Cron Error:", error);
+    res.status(500).json({ message: "Cron execution failed", error: error.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
