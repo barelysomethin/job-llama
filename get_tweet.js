@@ -13,7 +13,8 @@ async function getTweet() {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const job = await Job.findOne({
         createdAt: { $gte: oneDayAgo },
-        istweeted: { $ne: true }
+        istweeted: { $ne: true },
+        slug: { $exists: true }
     });
 
     if (!job) {
@@ -21,9 +22,7 @@ async function getTweet() {
         process.exit(0);
     }
 
-    // Replicate frontend slug logic
-    const slug = `${job.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${job._id}`;
-    const jobUrl = `${SITE_URL}/job/${slug}`;
+    const jobUrl = `${SITE_URL}/job/${job.slug}`;
     const tweetText = `🚨 New Opportunity!\n\n${job.title}\n💰 Salary: ${job.salary || 'Not listed'}\n📍 Exp: ${job.experience}\n\nApply here: ${jobUrl}\n\n#Jobs #Hiring #Career`;
 
     console.log("\n========================================");

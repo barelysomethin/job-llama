@@ -45,6 +45,7 @@ async function filterjobs() {
       jobType: jobTypeReference.jobType,
       apply: apply,
       istweeted: false,
+      slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-')
     };
   });
 
@@ -65,6 +66,13 @@ export async function savejobs() {
   }
 
   let result = await Jobmodel.insertMany(jobsforDB);
-  console.log("jobs saved to DB", result.length);
+  
+  // Update each job with its permanent slug (title-slug + mongoId)
+  for (let job of result) {
+    job.slug = `${job.slug}-${job._id}`;
+    await job.save();
+  }
+
+  console.log("jobs saved to DB with permanent slugs", result.length);
   return result;
 }

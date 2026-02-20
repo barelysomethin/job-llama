@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const JobCard = ({ job }) => {
-  const slug = `${job.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${job._id}`;
+  const slug = job.slug;
 
   return (
     <Link 
